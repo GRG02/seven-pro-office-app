@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useDropzone } from 'react-dropzone'
 import { Avatar, Box, Button, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import axios from 'axios'
@@ -13,6 +14,8 @@ function ImgCarousel() {
     const [openLoading, setOpenLoading] = useState(false);
     const poster_type = 'c';
     const [image, setImage] = useState([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getAllCarousel = async () => {
@@ -68,7 +71,10 @@ function ImgCarousel() {
     return (
         <Box sx={container}>
             <Box sx={{ height: '4.5rem' }} />
-            <Typography>ImgCarousel</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'start', width: '100%',  }}>
+                <Typography sx={{ fontSize: '2rem', fontWeight: 'bold' }}>เพิ่มโปสเตอร์บน Carousel</Typography>
+                <Button sx={{ fontSize: '1.25rem', ml: 'auto', bgcolor: 'darkorange', color: 'white' }} onClick={() => { navigate('/') }}>กลับสู่หน้าหลัก</Button>
+            </Box>
             <Box sx={{ height: '4.5rem' }} />
             <Grid container spacing={2} sx={{ width: '100%' }}>
                 <Grid item size={{ xs: 12, sm: 12, md: 12, lg: 6 }} sx={{ display: 'flex', justifyContent: 'center', bgcolor: 'white' }}>
@@ -131,7 +137,7 @@ function ImgCarousel() {
                         </Table>
                     </TableContainer>
                 </Grid>
-                <Grid item size={{ xs: 12, sm: 12, md: 12, lg: 6 }} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', bgcolor: '' }}>
+                <Grid item size={{ xs: 12, sm: 12, md: 12, lg: 6 }} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', mb: '5rem' }}>
                     <Box sx={dropzone_box} {...getRootProps()}>
                         <input {...getInputProps()} />
                         <Avatar variant='square' src={Default} sx={{ width: '30%', height: '30%', mb: 2, display: files.length === 0 ? 'block' : 'none' }} />
