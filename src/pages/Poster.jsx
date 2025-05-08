@@ -5,6 +5,7 @@ import { Avatar, Box, Button, Grid, Table, TableBody, TableCell, TableContainer,
 import axios from 'axios'
 import Popup from '../pages/components/Popup'
 import Loading from './components/Loading'
+import Detail from '../pages/components/Detail'
 import Default from './../assets/defaultimage.png'
 
 function Poster() {
@@ -12,6 +13,8 @@ function Poster() {
   const [files, setFiles] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
   const [openLoading, setOpenLoading] = useState(false);
+  const [openDetail, setOpenDetail] = useState(false);
+  const [editImage, setEditImage] = useState('');
   const poster_type = 'p';
   const [image, setImage] = useState([]);
 
@@ -85,6 +88,7 @@ function Poster() {
                   <TableCell align='center' sx={{ color: 'white' }}>ลำดับ</TableCell>
                   <TableCell align='center' sx={{ color: 'white' }}>รูป</TableCell>
                   <TableCell align='center' sx={{ color: 'white' }}>อัพโหลดเมื่อ</TableCell>
+                  <TableCell align='center' sx={{ color: 'white' }}>เพิ่มรายละเอียด</TableCell>
                   <TableCell align='center' sx={{ color: 'white' }}>ลบ</TableCell>
                 </TableRow>
               </TableHead>
@@ -105,7 +109,7 @@ function Poster() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  image.map((row, index) => (
+                  [...image].sort((a, b) => a.poster_id - b.poster_id).map((row, index) => (
                     <TableRow
                       key={row.poster_id}
                       sx={{
@@ -126,6 +130,9 @@ function Poster() {
                           dateStyle: 'medium',
                           timeStyle: 'short',
                         })} น.
+                      </TableCell>
+                      <TableCell align="center">
+                        <Button sx={{ fontSize: '1.25rem', bgcolor: row.poster_name ? '#14724f' : 'red', borderRadius: '25px' }} onClick={() => {setOpenDetail(true), setEditImage(row)} }>✏️</Button>
                       </TableCell>
                       <TableCell align="center">
                         <Button sx={{ fontSize: '1.25rem' }} onClick={() => handleDeleteCarousel(row.poster_id)}>❌</Button>
@@ -188,6 +195,7 @@ function Poster() {
 
             <Popup open={openPopup} onClose={() => setOpenPopup(false)} files={files} setFiles={setFiles} type={poster_type} setImage={setImage} />
             <Loading open={openLoading} onClose={() => setOpenLoading(false)} title="กําลังลบ..." message="กรุณารอสักครู่..." />
+            <Detail open={openDetail} onClose={() => setOpenDetail(false)} image={editImage} setImage={setImage} />
           </Box>
         </Grid>
       </Grid>

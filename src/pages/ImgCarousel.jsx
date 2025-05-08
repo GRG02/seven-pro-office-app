@@ -71,7 +71,7 @@ function ImgCarousel() {
     return (
         <Box sx={container}>
             <Box sx={{ height: '4.5rem' }} />
-            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'start', width: '100%',  }}>
+            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'start', width: '100%', }}>
                 <Typography sx={{ fontSize: '2rem', fontWeight: 'bold' }}>เพิ่มโปสเตอร์บน Carousel</Typography>
                 <Button sx={{ fontSize: '1.25rem', ml: 'auto', bgcolor: 'darkorange', color: 'white' }} onClick={() => { navigate('/') }}>กลับสู่หน้าหลัก</Button>
             </Box>

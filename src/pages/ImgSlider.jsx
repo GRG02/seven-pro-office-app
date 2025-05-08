@@ -5,13 +5,16 @@ import { Avatar, Box, Button, Grid, Table, TableBody, TableCell, TableContainer,
 import axios from 'axios'
 import Popup from '../pages/components/Popup'
 import Loading from './components/Loading'
+import Detail from '../pages/components/Detail'
 import Default from './../assets/defaultimage.png'
 
-function ImgSlider() {
+function Poster() {
 
   const [files, setFiles] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
   const [openLoading, setOpenLoading] = useState(false);
+  const [openDetail, setOpenDetail] = useState(false);
+  const [editImage, setEditImage] = useState('');
   const poster_type = 's';
   const [image, setImage] = useState([]);
 
@@ -73,18 +76,19 @@ function ImgSlider() {
       <Box sx={{ height: '4.5rem' }} />
       <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'start', width: '100%', }}>
         <Typography sx={{ fontSize: '2rem', fontWeight: 'bold' }}>เพิ่มโปสเตอร์บน Slider</Typography>
-        <Button sx={{ fontSize: '1.25rem', ml: 'auto', bgcolor: '#ed1c24', color: 'white' }} onClick={() => { navigate('/') }}>กลับสู่หน้าหลัก</Button>
+        <Button sx={{ fontSize: '1.25rem', ml: 'auto', bgcolor: 'red', color: 'white' }} onClick={() => { navigate('/') }}>กลับสู่หน้าหลัก</Button>
       </Box>
       <Box sx={{ height: '4.5rem' }} />
       <Grid container spacing={2} sx={{ width: '100%' }}>
         <Grid item size={{ xs: 12, sm: 12, md: 12, lg: 6 }} sx={{ display: 'flex', justifyContent: 'center', bgcolor: 'white' }}>
-          <TableContainer sx={{ maxHeight: '60vh', border: '2px solid #ed1c24' }}>
+          <TableContainer sx={{ maxHeight: '60vh', border: '2px solid red' }}>
             <Table aria-label="simple table">
-              <TableHead sx={{ bgcolor: '#ed1c24' }}>
+              <TableHead sx={{ bgcolor: 'red' }}>
                 <TableRow>
                   <TableCell align='center' sx={{ color: 'white' }}>ลำดับ</TableCell>
                   <TableCell align='center' sx={{ color: 'white' }}>รูป</TableCell>
                   <TableCell align='center' sx={{ color: 'white' }}>อัพโหลดเมื่อ</TableCell>
+                  <TableCell align='center' sx={{ color: 'white' }}>เพิ่มรายละเอียด</TableCell>
                   <TableCell align='center' sx={{ color: 'white' }}>ลบ</TableCell>
                 </TableRow>
               </TableHead>
@@ -105,7 +109,7 @@ function ImgSlider() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  image.map((row, index) => (
+                  [...image].sort((a, b) => a.poster_id - b.poster_id).map((row, index) => (
                     <TableRow
                       key={row.poster_id}
                       sx={{
@@ -126,6 +130,9 @@ function ImgSlider() {
                           dateStyle: 'medium',
                           timeStyle: 'short',
                         })} น.
+                      </TableCell>
+                      <TableCell align="center">
+                        <Button sx={{ fontSize: '1.25rem', bgcolor: row.poster_name ? '#14724f' : 'red', borderRadius: '25px' }} onClick={() => {setOpenDetail(true), setEditImage(row)} }>✏️</Button>
                       </TableCell>
                       <TableCell align="center">
                         <Button sx={{ fontSize: '1.25rem' }} onClick={() => handleDeleteCarousel(row.poster_id)}>❌</Button>
@@ -188,6 +195,7 @@ function ImgSlider() {
 
             <Popup open={openPopup} onClose={() => setOpenPopup(false)} files={files} setFiles={setFiles} type={poster_type} setImage={setImage} />
             <Loading open={openLoading} onClose={() => setOpenLoading(false)} title="กําลังลบ..." message="กรุณารอสักครู่..." />
+            <Detail open={openDetail} onClose={() => setOpenDetail(false)} image={editImage} setImage={setImage} />
           </Box>
         </Grid>
       </Grid>
@@ -195,7 +203,7 @@ function ImgSlider() {
   )
 }
 
-export default ImgSlider
+export default Poster
 
 const container = {
   display: 'flex',
